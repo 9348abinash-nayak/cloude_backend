@@ -7,6 +7,14 @@ dotenv.config()
 
 const BASE_URL = "https://ce.judge0.com";
 
+type Judge0Response = {
+  stdout?: string;
+  stderr?: string;
+  status?: {
+    description: string;
+  };
+};
+
 
 export const executeCodeService = async (data: any) => {
   try {
@@ -21,7 +29,7 @@ export const executeCodeService = async (data: any) => {
       throw new Error("Room not found");
     }
 
-   let lang =room.language.toLowerCase()
+   let lang =room.language?.toLowerCase()
    if(!lang){
      lang = language
    }
@@ -44,7 +52,7 @@ export const executeCodeService = async (data: any) => {
       }
     );
 
-    const result = response.data;
+const result = response.data as Judge0Response
     const output = result.stdout
       ? Buffer.from(result.stdout, "base64").toString()
       : null;
