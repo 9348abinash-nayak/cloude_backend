@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Socket Test</title>
+</head>
+<body>
+  <h2>Socket.IO Test</h2>
+
+  <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+
+  <script>
+    const socket = io("http://localhost:8000");
+
+    socket.on("connect", () => {
+      console.log("✅ Connected:", socket.id);
+
+      // test event
+      socket.emit("test", "Hello from frontend");
+
+      // join room
+      socket.emit("join-room", {
+        roomId: "room1",
+        user: { name: "Abinash", color: "blue" }
+      });
+    });
+
+    socket.on("active-users", (users) => {
+      console.log("👥 Active users:", users);
+    });
+
+    socket.on("user-joined", (user) => {
+      console.log("🟢 User joined:", user);
+    });
+
+    socket.on("disconnect", () => {
+      console.log("❌ Disconnected");
+    });
+  </script>
+</body>
+</html>
