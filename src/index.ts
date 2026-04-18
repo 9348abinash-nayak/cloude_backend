@@ -14,14 +14,18 @@ const app = express();
 
 app.use(cors({
   origin: "*",
-  methods: ["GET", "POST"],
+  methods: ["GET", "POST"]
 }));
 app.use(express.json())
 
 const server = http.createServer(app);
-
+const FRONTEND_URL = "https://your-frontend.vercel.app";
 const io = new Server(server, {
-  cors: { origin: "*" }
+  cors: {
+    origin: FRONTEND_URL,
+    methods: ["GET", "POST"],
+    credentials: true
+  }
 });
 
 
