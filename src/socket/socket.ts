@@ -19,8 +19,6 @@ export const initSocket = (io: Server) => {
 
     // ================= JOIN ROOM =================
 socket.on("join", async ({ roomId, user }) => {
-  if (socket.data.joined) return;
-  socket.data.joined = true;
   const room = await Room.findOne({ roomId });
   if (room?.code) {
     socket.emit("code-update", room.code);
@@ -33,23 +31,15 @@ socket.on("join", async ({ roomId, user }) => {
 
   if (!users[roomId]) users[roomId] = [];
 
-  users[roomId] = users[roomId].filter(
-    (u) => u.socketId !== socket.id
-  );
+  // Remove existing user with same name to avoid duplicates
+  users[roomId] = users[roomId].filter((u) => u.name !== user.name);
 
-  const existingUserIndex = users[roomId].findIndex(
-    (u) => u.name === user.name
-  );
-
-  if (existingUserIndex !== -1) {
-    users[roomId][existingUserIndex].socketId = socket.id;
-  } else {
-    users[roomId].push({
-      socketId: socket.id,
-      name: user.name,
-      color: user.color,
-    });
-  }
+  // Add fresh connection
+  users[roomId].push({
+    socketId: socket.id,
+    name: user.name,
+    color: user.color,
+  });
 
   io.to(roomId).emit("active-users", users[roomId]);
 
