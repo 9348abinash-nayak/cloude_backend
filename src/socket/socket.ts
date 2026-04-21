@@ -14,7 +14,6 @@ const users: Record<string, User[]> = {};
 
 export const initSocket = (io: Server) => {
   io.on("connection", (socket: Socket) => {
-    console.log("User connected:", socket.id);
 
     let currentRoom: string | null = null;
 
@@ -58,7 +57,7 @@ socket.on("join", async ({ roomId, user }) => {
     message: `${user.name} joined`,
     user,
   });
-});
+});  
 
     // ================= CODE CHANGE ================= 
     socket.on("code-change", async ({ roomId, code }) => {
