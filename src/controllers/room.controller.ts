@@ -1,5 +1,5 @@
 import { Request,Response } from "express";
-import { createRoomServices , getRoomService, joinRoomServices, lockedRoom } from "../services/room.services.ts";
+import { createRoomServices , getRoomService, joinRoomServices, lockedRoom, unlockroom } from "../services/room.services.ts";
 
 export const createRoomController = async (req: Request, res: Response) => {
   try {
@@ -67,6 +67,27 @@ export const lockRoomController = async (req: Request, res: Response) => {
     return res.status(200).json({
       success: true,
       message:"room is locked now",
+      room
+    });
+
+  } catch (error: any) {
+    return res.status(400).json({
+      success: false,
+      message: error.message
+    });
+  }
+};
+
+
+export const unlockRoomController = async (req: Request, res: Response) => {
+  try {
+    const { roomId } = req.body;
+
+    const room = await unlockroom(roomId);
+
+    return res.status(200).json({
+      success: true,
+      message:"room is unlocked now",
       room
     });
 
