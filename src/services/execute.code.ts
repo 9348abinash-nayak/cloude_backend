@@ -23,22 +23,22 @@ export const executeCodeService = async (data: any) => {
     if (!code) {
       throw new Error("Code is required");
     }
-    const room = await Room.findOne({ roomId:roomId });
+const room = await Room.findOne({ roomId:roomId });
 
-    if (!room) {
-      throw new Error("Room not found");
-    }
+const lang: string =
+  room?.language?.toLowerCase() ||
+  language?.toLowerCase() ||
+  "";
 
-   let lang =room.language?.toLowerCase()
-   if(!lang){
-     lang = language
-   }
+if (!lang) {
+  throw new Error("Language is required");
+}
 
-    const language_id = languageMap[lang];
+const language_id = languageMap[lang];
 
-    if (!language_id) {
-      throw new Error(`Unsupported language: ${lang}`);
-    }
+if (!language_id) {
+  throw new Error(`Unsupported language: ${lang}`);
+}
 
     const encodedCode = Buffer.from(code).toString("base64");
     const encodedInput = Buffer.from(input || "").toString("base64");
