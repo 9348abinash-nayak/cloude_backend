@@ -18,6 +18,14 @@ app.use(cors({
 }));
 app.use(express.json())
 
+app.get("/", (_req, res) => {
+  res.status(200).json({
+    ok: true,
+    message: "Backend is running",
+    health: "/room/health"
+  });
+});
+
 const server = http.createServer(app);
 const FRONTEND_URL = "https://your-frontend.vercel.app";
 const io = new Server(server, {
