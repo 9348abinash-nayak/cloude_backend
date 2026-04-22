@@ -53,3 +53,15 @@ export async function lockedRoom(roomId:string){
    await existRoom.save()
     return existRoom
 }
+export async function unlockroom(roomId: string) {
+  const room = await Room.findOne({ roomId });
+
+  if (!room) {
+    throw new Error("room id not found");
+  }
+
+  room.isLocked = false;
+  await room.save();
+
+  return room;
+}
