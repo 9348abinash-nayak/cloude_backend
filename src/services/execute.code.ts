@@ -23,11 +23,9 @@ export const executeCodeService = async (data: any) => {
     if (!code) {
       throw new Error("Code is required");
     }
-    const room = await Room.findOne({ roomId:roomId });
-
 const room = await Room.findOne({ roomId:roomId });
 
-  const lang: string =
+const lang: string =
   room?.language?.toLowerCase() ||
   language?.toLowerCase() ||
   "";
