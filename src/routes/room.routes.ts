@@ -7,4 +7,7 @@ roomRouter.post("/join",joinRoomController)
 roomRouter.get("/get/:roomId",getRoomController)
 roomRouter.post("/locked" , lockRoomController)
 roomRouter.post("/unlocked",unlockRoomController)
+roomRouter.get("/health",()=>{
+    console.log("health is ok")
+})
 
